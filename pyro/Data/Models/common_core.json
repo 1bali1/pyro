@@ -1,0 +1,50 @@
+{
+    "accountId": "",
+    "created": "",
+    "updated": "",
+    "rvn": 1,
+    "wipeNumber": 1,
+    "profileId": "common_core",
+    "version": "s15",
+    "items": {
+        "Currency:MtxPurchased": {
+            "templateId": "Currency:MtxPurchased",
+            "attributes": {
+                "platform": "EpicPC"
+            },
+            "quantity": 200
+        }
+    },
+    "stats": {
+        "attributes": {
+            "shop_layout": "v2",
+            "survey_data": {},
+            "personal_offers": {},
+            "intro_game_played": true,
+            "import_friends_claimed": {},
+            "mtx_purchase_history": {
+                "refundsUsed": 0,
+                "refundCredits": 3,
+                "purchases": []
+            },
+            "undo_cooldowns": [],
+            "mtx_affiliate_set_time": "",
+            "inventory_limit_bonus": 0,
+            "current_mtx_platform": "EpicPC",
+            "mtx_affiliate": "",
+            "forced_intro_played": "Coconut",
+            "weekly_purchases": {},
+            "daily_purchases": {},
+            "ban_history": {},
+            "in_app_purchases": {},
+            "permissions": [],
+            "undo_timeout": "min",
+            "monthly_purchases": {},
+            "allowed_to_send_gifts": false,
+            "mfa_enabled": false,
+            "allowed_to_receive_gifts": true,
+            "gift_history": {}
+        }
+    },
+    "commandRevision": 0
+}

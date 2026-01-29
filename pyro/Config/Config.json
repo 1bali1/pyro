@@ -1,0 +1,49 @@
+{
+    "emergencynotice": {
+        "title": "Pyro-backend",
+        "description": "Fejlesztés alatt..."
+    },
+    "discordrpc": {
+        "state": "Pyro - In Lobby",
+        "inGameState": "Pyro - {0} Remaining"
+    },
+    "news": [
+        {
+            "image": "https://cdn.discordapp.com/attachments/1462431738809553099/1463630394397294736/image.png?ex=697481c6&is=69733046&hm=052370cc66fddf092e57e623ece3b1f4cca2b74e6b3462f175892807e8287019&",
+            "adspace": "Pyro",
+            "title": "Pyro-backend fejlesztés alatt...",
+            "body": "Pyro-backend jelenleg fejlesztés alatt áll!",
+            "spotlight": false,
+            "hidden": false
+        },
+        {
+            "image": "https://cdn.discordapp.com/attachments/1462431738809553099/1463630394397294736/image.png?ex=697481c6&is=69733046&hm=052370cc66fddf092e57e623ece3b1f4cca2b74e6b3462f175892807e8287019&",
+            "adspace": "Pyro",
+            "title": "Elég menő! nen",
+            "body": "Üdvözlünk Pyro-on!",
+            "spotlight": false,
+            "hidden": false
+        }
+    ],
+    "sac": [
+        "bali"
+    ],
+    "playlists": {
+        "playlist_defaultsolo": [
+            {
+                "address": "127.0.0.1",
+                "port": 7777
+            },
+            {
+                "address": "127.0.0.1",
+                "port": 7778
+            }
+        ],
+        "playlist_defaultduo": [
+            {
+                "address": "127.0.0.1",
+                "port": 7776
+            }
+        ]
+    }
+}

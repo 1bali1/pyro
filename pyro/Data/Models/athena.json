@@ -1,0 +1,230 @@
+{
+    "accountId": "",
+    "created": "",
+    "updated": "",
+    "rvn": 1,
+    "wipeNumber": 1,
+    "profileId": "athena",
+    "version": "no_version",
+    "items": {
+        "default-loadout": {
+            "templateId": "CosmeticLocker:cosmeticlocker_athena",
+            "attributes": {
+                "locker_slots_data": {
+                    "slots": {
+                        "MusicPack": {
+                            "items": [
+                                ""
+                            ]
+                        },
+                        "Character": {
+                            "items": [
+                                "AthenaCharacter:cid_044_athena_commando_f_scipop"
+                            ],
+                            "activeVariants": [
+                                null
+                            ]
+                        },
+                        "Backpack": {
+                            "items": [
+                                ""
+                            ],
+                            "activeVariants": [
+                                null
+                            ]
+                        },
+                        "SkyDiveContrail": {
+                            "items": [
+                                ""
+                            ],
+                            "activeVariants": [
+                                null
+                            ]
+                        },
+                        "Dance": {
+                            "items": [
+                                "AthenaDance:eid_dancemoves",
+                                "AthenaDance:eid_scorecardtomato",
+                                "",
+                                "",
+                                "",
+                                ""
+                            ]
+                        },
+                        "LoadingScreen": {
+                            "items": [
+                                ""
+                            ]
+                        },
+                        "Pickaxe": {
+                            "items": [
+                                "AthenaPickaxe:defaultpickaxe"
+                            ],
+                            "activeVariants": [
+                                null
+                            ]
+                        },
+                        "Glider": {
+                            "items": [
+                                "AthenaGlider:defaultglider"
+                            ],
+                            "activeVariants": [
+                                null
+                            ]
+                        },
+                        "ItemWrap": {
+                            "items": [
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                ""
+                            ],
+                            "activeVariants": [
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null
+                            ]
+                        }
+                    }
+                },
+                "use_count": 0,
+                "banner_icon_template": "",
+                "banner_color_template": "",
+                "locker_name": "Default Loadout",
+                "item_seen": true
+            },
+            "quantity": 1
+        },
+        "AthenaBackpack:bid_001_bluesquire": {
+            "templateId": "AthenaBackpack:bid_001_bluesquire",
+            "attributes": {
+                "item_seen": true,
+                "variants": []
+            },
+            "quantity": 1
+        },
+        "AthenaBackpack:bid_545_renegaderaiderfire": {
+            "templateId": "AthenaBackpack:bid_545_renegaderaiderfire",
+            "attributes": {
+                "item_seen": true,
+                "variants": []
+            },
+            "quantity": 1
+        },
+        "AthenaDance:eid_scorecardtomato": {
+            "templateId": "AthenaDance:eid_scorecardtomato",
+            "attributes": {
+                "item_seen": true,
+                "variants": []
+            },
+            "quantity": 1
+        },
+        "AthenaDance:EID_WalkieWalk": {
+            "templateId": "AthenaDance:EID_WalkieWalk",
+            "attributes": {
+                "item_seen": true,
+                "variants": []
+            },
+            "quantity": 1
+        },
+        "AthenaDance:EID_NeverGonna": {
+            "templateId": "AthenaDance:EID_NeverGonna",
+            "attributes": {
+                "item_seen": true,
+                "variants": []
+            },
+            "quantity": 1
+        },
+        "AthenaCharacter:cid_044_athena_commando_f_scipop": {
+            "templateId": "AthenaCharacter:cid_044_athena_commando_f_scipop",
+            "attributes": {
+                "item_seen": true,
+                "variants": []
+            },
+            "quantity": 1
+        },
+        "AthenaCharacter:CID_784_Athena_Commando_F_RenegadeRaiderFire": {
+            "templateId": "AthenaCharacter:CID_784_Athena_Commando_F_RenegadeRaiderFire",
+            "attributes": {
+                "item_seen": true,
+                "variants": []
+            },
+            "quantity": 1
+        }
+    },
+    "stats": {
+        "attributes": {
+            "past_seasons": [],
+            "season_match_boost": 120,
+            "loadouts": [
+                "default-loadout"
+            ],
+            "favorite_victorypose": "",
+            "mfa_reward_claimed": true,
+            "quest_manager": {
+                "dailyLoginInterval": "0001-01-01T00:00:00.000Z",
+                "dailyQuestRerolls": 1
+            },
+            "book_level": 100,
+            "season_num": 15,
+            "favorite_consumableemote": "",
+            "banner_color": "",
+            "favorite_callingcard": "",
+            "favorite_character": "",
+            "favorite_spray": [],
+            "book_xp": 0,
+            "battlestars": 100000,
+            "battlestars_season_total": 100000,
+            "style_points": 100000,
+            "alien_style_points": 100000,
+            "purchased_bp_offers": [],
+            "favorite_loadingscreen": "",
+            "book_purchased": true,
+            "lifetime_wins": 0,
+            "favorite_hat": "",
+            "level": 1,
+            "favorite_battlebus": "",
+            "favorite_mapmarker": "",
+            "favorite_vehicledeco": "",
+            "accountLevel": 100,
+            "favorite_backpack": "",
+            "favorite_dance": [
+                "AthenaDance:eid_dancemoves",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ],
+            "inventory_limit_bonus": 0,
+            "last_applied_loadout": "default-loadout",
+            "favorite_skydivecontrail": "",
+            "favorite_pickaxe": "AthenaPickaxe:defaultpickaxe",
+            "favorite_glider": "AthenaGlider:defaultglider",
+            "daily_rewards": {},
+            "xp": 1200,
+            "season_friend_match_boost": 120,
+            "active_loadout_index": 0,
+            "favorite_musicpack": "",
+            "banner_icon": "",
+            "favorite_itemwraps": [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ]
+        }
+    },
+    "commandRevision": 0
+}
