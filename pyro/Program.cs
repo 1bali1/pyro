@@ -15,12 +15,7 @@ await utils.LoadEmergencyNotice();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
 app.MapControllers();
-
+app.UseMiddleware<Logger>();
 
 await app.RunAsync();

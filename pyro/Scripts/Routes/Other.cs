@@ -23,8 +23,8 @@ namespace pyro.Scripts.Routes
         [HttpGet("createacc")]
         public async Task<IActionResult> TestCreateAccount()
         {
-            await _database.CreateUser("bali", "test@test.test", "xdxdxd", 100000000000000);
-            return Ok();
+            string result = await _database.CreateUser("bali", "test@test.test", "xdxdxd", 100000000000000);
+            return Ok(result);
         }
     }
 }

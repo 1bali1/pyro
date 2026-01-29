@@ -1,10 +1,18 @@
+using System.Reflection.Metadata;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using Newtonsoft.Json.Linq;
 namespace pyro.Scripts.Utils
 {
-    class Utils
+    public class Utils
     {
+        // colors
+        public const string redColor = "\u001b[31m";
+        public const string greenColor = "\u001b[32m";
+        public const string resetColor = "\u001b[0m";
+
+
+        // path
         const string profilesPath = "Data/Models/";
         const string configPath = "Config/Config.json";
         const string jsonDataPath = "Data/";
@@ -60,10 +68,10 @@ namespace pyro.Scripts.Utils
             var emergencynotice = config.GetValue("emergencynotice")!;
 
             jsonData["emergencynotice"]["news"]["messages"][0]["title"] = emergencynotice["title"];
-            jsonData["emergencynotice"]["news"]["messages"][0]["body"] = emergencynotice["title"];
+            jsonData["emergencynotice"]["news"]["messages"][0]["body"] = emergencynotice["description"];
 
             jsonData["emergencynoticev2"]["emergencynotices"]["emergencynotices"][0]["title"] = emergencynotice["title"];
-            jsonData["emergencynoticev2"]["emergencynotices"]["emergencynotices"][0]["body"] = emergencynotice["title"];
+            jsonData["emergencynoticev2"]["emergencynotices"]["emergencynotices"][0]["body"] = emergencynotice["description"];
 
             await UpdateJsonData("contentpages", jsonData);
         }
