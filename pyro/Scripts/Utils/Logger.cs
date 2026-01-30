@@ -19,7 +19,7 @@ namespace pyro.Scripts.Utils
 
             var color = statusCode >= 400 ? Utils.redColor : Utils.greenColor;
 
-            Console.WriteLine($"[BACKEND] {method} {color}{path}{Utils.resetColor} | Code: {statusCode}");
+            Console.WriteLine($"{Utils.purpleColor}[BACKEND]{Utils.resetColor} {method} {color}{path}{Utils.resetColor} | Code: {statusCode}");
         }
     }
 }

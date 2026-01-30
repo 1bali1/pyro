@@ -21,4 +21,14 @@ namespace pyro.Scripts.Utils
         public Dictionary<string, BsonDocument> profiles { get; set; } = default!;
         public Dictionary<string, object> friendSystem { get; set; } = default!;
     }
+    
+    public class Token
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } = default!;
+        public string accountId { get; set; } = default!;
+        public string accessToken { get; set; } = default!;
+        public string refreshToken { get; set; } = default!;
+    }
 }
