@@ -3,6 +3,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using pyro.Scripts.Utils;
 
 namespace pyro.Scripts.Routes
@@ -49,6 +50,27 @@ namespace pyro.Scripts.Routes
             }
 
             User ?user = null;
+            
+            switch (grantType)
+            {
+                case "password":
+                    StringValues email;
+                    StringValues password;
+                    data.TryGetValue("username", out email);
+                    data.TryGetValue("password", out password);
+
+                    if(StringValues.IsNullOrEmpty(email) || StringValues.IsNullOrEmpty(password))
+                    {
+                        // TODO: error
+                        return Forbid();
+                    }
+                    // TODO: db query
+                    
+                    break;
+                default: break;
+            }
+
+            return Ok();
         }
     }
 }
