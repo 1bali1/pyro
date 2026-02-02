@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
@@ -76,7 +77,7 @@ namespace pyro.Scripts.Routes
                     }
                     
                     break;
-                    
+
                 case "refresh":
                     // TODO: token frissítése
                     Console.WriteLine("Refresh");
@@ -86,13 +87,13 @@ namespace pyro.Scripts.Routes
                     string token = await tokenManager.GenerateClientToken(Request.Host.ToString(), clientId, grantType, clientExpireTime);
                     var expiresAt = Utils.Utils.GetIsoDatetime(DateTime.Now.AddHours(clientExpireTime));
 
-                    var clientData = new Dictionary<string, object>
+                    var clientData = new
                     {
-                        {"access_token", $"eg1~{token}"},
-                        {"expires_in", clientExpireTime*3600},
-                        {"expires_at", expiresAt},
-                        {"internal_client", true},
-                        {"client_service", "fortnite"}
+                        access_token = $"eg1~{token}",
+                        expires_in = clientExpireTime*3600,
+                        expires_at = expiresAt,
+                        internal_client = true,
+                        client_service = "fortnite"
                     };
                     return Ok(clientData);
 
@@ -116,23 +117,24 @@ namespace pyro.Scripts.Routes
             string accessToken = await tokenManager.GenerateAccessToken(user.accountId, user.username, clientId, deviceId, grantType, accessExpireTime);
             string refreshToken = await tokenManager.GenerateRefreshToken(user.accountId, clientId, deviceId, grantType, refreshExpireTime);
 
-            var returnData = new Dictionary<string, object>
+            var returnData = new
             {
-                {"access_token", $"eg1~{accessToken}"},
-                {"expires_in", accessExpireTime*3600},
-                {"expires_at", Utils.Utils.GetIsoDatetime(DateTime.Now.AddHours(accessExpireTime))},
-                {"token_type", "bearer"},
-                {"refresh_token", $"eg1~{refreshToken}"},
-                {"refresh_expires", refreshExpireTime*3600},
-                {"refresh_expires_at", Utils.Utils.GetIsoDatetime(DateTime.Now.AddHours(refreshExpireTime))},
-                {"account_id", user.accountId},
-                {"client_id", clientId},
-                {"internal_client", true},
-                {"client_service", "fortnite"},
-                {"displayName", user.username},
-                {"app", "fortnite"},
-                {"in_app_id", user.accountId},
-                {"device_id", deviceId}
+                access_token = $"eg1~{accessToken}",
+                expires_in = accessExpireTime*3600,
+                expires_at = Utils.Utils.GetIsoDatetime(DateTime.Now.AddHours(accessExpireTime)),
+                token_type = "bearer",
+                refresh_token = $"eg1~{refreshToken}",
+                refresh_expires = refreshExpireTime*3600,
+                refresh_expires_at = Utils.Utils.GetIsoDatetime(DateTime.Now.AddHours(refreshExpireTime)),
+                account_id = user.accountId,
+                client_id = clientId,
+                internal_client = true,
+                client_service = "fortnite",
+                displayName = user.username,
+                app = "fortnite",
+                in_app_id = user.accountId,
+                device_id = deviceId
+            
             };
 
             return Ok(returnData);
@@ -141,19 +143,35 @@ namespace pyro.Scripts.Routes
         [HttpGet("account/api/oauth/verify"), RequiresAuthorization]
         public async Task<IActionResult> OAuthVerify()
         {
+            var user = HttpContext.Items["user"] as User;
             var headers = Request.Headers;
 
             StringValues authorization;
             headers.TryGetValue("authorization", out authorization);
 
             string encodedToken = authorization.ToString().Split(":")[1];
-            byte[] tokenBinary = Convert.FromBase64String(encodedToken);
-            string decodedToken = Encoding.UTF8.GetString(tokenBinary).Replace("eg1~", "");
+            var handler = new JwtSecurityTokenHandler();
+            var decodedToken = handler.ReadJwtToken(encodedToken);
 
+            DateTime expiresAt;
+            DateTime.TryParse(decodedToken.Claims.First(claim => claim.Type == "creation_date").Value, out expiresAt);
 
-            var returnData = new Dictionary<string, object>
+            var returnData = new
             {
-                
+                token = encodedToken,
+                session_id = decodedToken.Claims.First(claim => claim.Type == "jti"),
+                token_type = "bearer",
+                client_id = decodedToken.Claims.First(claim => claim.Type == "clid"),
+                internal_client = true,
+                client_service = "fortnite",
+                account_id = user!.accountId,
+                expires_in = (expiresAt - DateTime.Now).Seconds,
+                expires_at = expiresAt,
+                auth_method = decodedToken.Claims.First(claim => claim.Type == "am"),
+                display_name = user.username,
+                app = "fortnite",
+                in_app_id = user.accountId,
+                device_id = decodedToken.Claims.First(claim => claim.Type == "dvid"),
             };
 
             return Ok(returnData);

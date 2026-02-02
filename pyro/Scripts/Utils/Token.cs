@@ -4,14 +4,54 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 
 namespace pyro.Scripts.Utils
 {
-    public class RequiresAuthorization : Attribute, IAuthorizationFilter
+    public class RequiresAuthorization : Attribute, IAsyncAuthorizationFilter
     {
-        public void OnAuthorization(AuthorizationFilterContext filterContext)
+        public async Task OnAuthorizationAsync(AuthorizationFilterContext filterContext)
         {
-            filterContext.Result = new UnauthorizedResult();
+            var headers = filterContext.HttpContext.Request.Headers;
+
+            string authHeader = headers["Authorization"];
+
+            if (string.IsNullOrWhiteSpace(authHeader) || !authHeader.StartsWith("bearer eg1~")) 
+            { 
+                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "A token nem található!", [], 1011, 401).Create(filterContext.HttpContext.Response);
+                return;
+            }
+            
+            string rawToken = authHeader.Replace("bearer eg1~", "");
+
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(rawToken);
+            
+            string sub = token.Claims.First(claim => claim.Type == "sub").Value;
+
+            var database = filterContext.HttpContext.RequestServices.GetService<Database>();
+            var userToken = await database!.tokens.Find(p => p.accountId == sub).FirstOrDefaultAsync();
+            
+            if(userToken == null || string.IsNullOrWhiteSpace(userToken.accessToken))
+            {
+                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "A token nem található!", [], 1011, 401).Create(filterContext.HttpContext.Response);
+                return;
+            }
+
+            var user = await database!.users.Find(p => p.accountId == sub).FirstOrDefaultAsync();
+
+            if(user == null)
+            {
+                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "Nem található a felhasználó!", [], 1011, 401).Create(filterContext.HttpContext.Response);
+                return; 
+            }
+            if (user.isBanned)
+            {
+                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.account_forbidden", "Ki vagy tiltva!", [], 1012, 401).Create(filterContext.HttpContext.Response);
+                return; 
+            }
+
+            filterContext.HttpContext.Items["user"] = user;
         }
     }
 
