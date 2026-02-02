@@ -1,10 +1,8 @@
-using System.Net;
-using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.StaticAssets;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using Newtonsoft.Json.Linq;
+
 namespace pyro.Scripts.Utils
 {
     public class Utils

@@ -20,7 +20,8 @@ namespace pyro.Scripts.Utils
         }
 
         public IMongoCollection<User> users => _database.GetCollection<User>("users");
-        public IMongoCollection<Token> tokens => _database.GetCollection<Token>("tokens");
+        public IMongoCollection<UserToken> tokens => _database.GetCollection<UserToken>("userTokens");
+        public IMongoCollection<ClientToken> clientTokens => _database.GetCollection<ClientToken>("clientTokens");
 
         public async Task<string> CreateUser(string username, string email, string password, long discordUserId)
         {
@@ -91,7 +92,7 @@ namespace pyro.Scripts.Utils
 
             if (userToken == null)
             {
-                userToken = new Token
+                userToken = new UserToken
                 {
                   accountId=accountId,
                   accessToken="",
@@ -102,6 +103,24 @@ namespace pyro.Scripts.Utils
             userToken.GetType().GetProperty(type)?.SetValue(userToken, token);
 
             await tokens.ReplaceOneAsync(p => p.accountId == accountId, replacement: userToken);
+        }
+
+        public async Task AddClientToken(string ipAddress, string token)
+        {
+            var clientToken = await clientTokens.Find(p => p.ipAddress == ipAddress).FirstOrDefaultAsync();
+
+            if (clientToken == null)
+            {
+                clientToken = new ClientToken
+                {
+                  ipAddress=ipAddress,
+                  clientToken="" 
+                };
+            }
+
+            clientToken.GetType().GetProperty("clientToken")?.SetValue(clientToken, token);
+
+            await clientTokens.ReplaceOneAsync(p => p.ipAddress == ipAddress, replacement: clientToken);
         }
     }
 }

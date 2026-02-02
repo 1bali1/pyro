@@ -1,9 +1,7 @@
-using System.Net.Http.Headers;
-using System.Reflection.Metadata;
 using System.Text;
-using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using MongoDB.Driver;
 using pyro.Scripts.Utils;
 
 namespace pyro.Scripts.Routes
@@ -13,6 +11,9 @@ namespace pyro.Scripts.Routes
     {
         private readonly Database _database;
         private readonly string[] allowedGrantTypes = ["password", "refresh", "client_credentials"];
+        private const int clientExpireTime = 5; // óra 
+        private const int accessExpireTime = 10;
+        private const int refreshExpireTime = 40;
 
         public Auth(Database database)
         {
@@ -24,14 +25,14 @@ namespace pyro.Scripts.Routes
         {
             var data = Request.Form;
             var headers = Request.Headers;
-            string[] ?clientId = null;
+            string ?clientId = null;
 
             try
             {
                 string authorization = headers["authorization"]!;
                 byte[] decodedBytes = Convert.FromBase64String(authorization.Split(":")[0]);
                 string decodedString = Encoding.UTF8.GetString(decodedBytes);
-                clientId = decodedString.Split(":", 1);
+                clientId = decodedString.Split(":", 1)[0];
 
                 if (clientId == null) throw new Exception();
             }
@@ -50,7 +51,8 @@ namespace pyro.Scripts.Routes
             }
 
             User ?user = null;
-            
+            var tokenManager = new TokenManager(_database);
+
             switch (grantType)
             {
                 case "password":
@@ -61,16 +63,100 @@ namespace pyro.Scripts.Routes
 
                     if(StringValues.IsNullOrEmpty(email) || StringValues.IsNullOrEmpty(password))
                     {
-                        // TODO: error
-                        return Forbid();
+                        var error = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "Hiányzik a jelszó, vagy az e-mail-cím!", [], 1011, 400).Create(Response);
+                        return error;
                     }
-                    // TODO: db query
+                    
+                    user = await _database.users.Find(p => p.email == email).FirstOrDefaultAsync();
+
+                    if(user == null)
+                    {
+                        var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "A megadott e-mail vagy jelszó helytelen!", [], 1011, 401).Create(Response);
+                        return error;
+                    }
                     
                     break;
+                    
+                case "refresh":
+                    // TODO: token frissítése
+                    Console.WriteLine("Refresh");
+                    break;
+
+                case "client_credentials":
+                    string token = await tokenManager.GenerateClientToken(Request.Host.ToString(), clientId, grantType, clientExpireTime);
+                    var expiresAt = Utils.Utils.GetIsoDatetime(DateTime.Now.AddHours(clientExpireTime));
+
+                    var clientData = new Dictionary<string, object>
+                    {
+                        {"access_token", $"eg1~{token}"},
+                        {"expires_in", clientExpireTime*3600},
+                        {"expires_at", expiresAt},
+                        {"internal_client", true},
+                        {"client_service", "fortnite"}
+                    };
+                    return Ok(clientData);
+
                 default: break;
             }
 
-            return Ok();
+            if(user == null)
+            {
+                var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "Hiba történt a bejelentkezés közben!", [], 1011, 401).Create(Response);
+                return error;
+            }
+
+            if (user.isBanned)
+            {
+                var error = await new BackendError("errors.com.epicgames.common.oauth.account_forbidden", "Ki vagy tiltva!", [], 1012, 401).Create(Response);
+                return error;
+            }
+
+            string deviceId = Utils.Utils.GenerateUuid();
+
+            string accessToken = await tokenManager.GenerateAccessToken(user.accountId, user.username, clientId, deviceId, grantType, accessExpireTime);
+            string refreshToken = await tokenManager.GenerateRefreshToken(user.accountId, clientId, deviceId, grantType, refreshExpireTime);
+
+            var returnData = new Dictionary<string, object>
+            {
+                {"access_token", $"eg1~{accessToken}"},
+                {"expires_in", accessExpireTime*3600},
+                {"expires_at", Utils.Utils.GetIsoDatetime(DateTime.Now.AddHours(accessExpireTime))},
+                {"token_type", "bearer"},
+                {"refresh_token", $"eg1~{refreshToken}"},
+                {"refresh_expires", refreshExpireTime*3600},
+                {"refresh_expires_at", Utils.Utils.GetIsoDatetime(DateTime.Now.AddHours(refreshExpireTime))},
+                {"account_id", user.accountId},
+                {"client_id", clientId},
+                {"internal_client", true},
+                {"client_service", "fortnite"},
+                {"displayName", user.username},
+                {"app", "fortnite"},
+                {"in_app_id", user.accountId},
+                {"device_id", deviceId}
+            };
+
+            return Ok(returnData);
+        }
+
+        [HttpGet("account/api/oauth/verify"), RequiresAuthorization]
+        public async Task<IActionResult> OAuthVerify()
+        {
+            var headers = Request.Headers;
+
+            StringValues authorization;
+            headers.TryGetValue("authorization", out authorization);
+
+            string encodedToken = authorization.ToString().Split(":")[1];
+            byte[] tokenBinary = Convert.FromBase64String(encodedToken);
+            string decodedToken = Encoding.UTF8.GetString(tokenBinary).Replace("eg1~", "");
+
+
+            var returnData = new Dictionary<string, object>
+            {
+                
+            };
+
+            return Ok(returnData);
         }
     }
 }

@@ -21,8 +21,8 @@ namespace pyro.Scripts.Utils
         public Dictionary<string, BsonDocument> profiles { get; set; } = default!;
         public Dictionary<string, object> friendSystem { get; set; } = default!;
     }
-    
-    public class Token
+
+    public class UserToken
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -30,5 +30,14 @@ namespace pyro.Scripts.Utils
         public string accountId { get; set; } = default!;
         public string accessToken { get; set; } = default!;
         public string refreshToken { get; set; } = default!;
+    }
+
+    public class ClientToken
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } = default!;
+        public string ipAddress { get; set; } = default!;
+        public string clientToken { get; set; } = default!;
     }
 }
