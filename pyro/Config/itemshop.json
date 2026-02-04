@@ -1,0 +1,237 @@
+{
+    "autoItemshop": {
+        "enabled": true,
+        "blacklistedItems": [
+            "AthenaCharacter:CID_009_Athena_Commando_M"
+        ],
+        "bundles": [
+            {
+                "items": [
+                    "AthenaCharacter:cid_032_athena_commando_m_medieval",
+                    "AthenaDance:eid_goodvibes"
+                ],
+                "price": 3000
+            }
+        ],
+        "prices": {
+            "character": {
+                "common": 500,
+                "uncommon": 800,
+                "rare": 1200,
+                "epic": 1500,
+                "legendary": 2000,
+                "marvel": 1500,
+                "gaminglegends": 1500,
+                "lava": 2000,
+                "icon": 1500,
+                "starwars": 1500,
+                "dc": 1500,
+                "frozen": 2000,
+                "shadow": 1500,
+                "dark": 1500,
+                "slurp": 2000
+            },
+            "backpack": {
+                "common": 200,
+                "uncommon": 200,
+                "rare": 400,
+                "epic": 800,
+                "legendary": 1000,
+                "marvel": 400,
+                "gaminglegends": 400,
+                "lava": 800,
+                "icon": 400,
+                "starwars": 400,
+                "dc": 400,
+                "frozen": 800,
+                "shadow": 800,
+                "dark": 800,
+                "slurp": 800
+            },
+            "dance": {
+                "common": 200,
+                "uncommon": 200,
+                "rare": 500,
+                "epic": 800,
+                "legendary": 800,
+                "marvel": 300,
+                "gaminglegends": 500,
+                "lava": 500,
+                "icon": 500,
+                "starwars": 500,
+                "dc": 300,
+                "frozen": 500,
+                "shadow": 500,
+                "dark": 500,
+                "slurp": 500
+            },
+            "itemwrap": {
+                "common": 300,
+                "uncommon": 300,
+                "rare": 500,
+                "epic": 700,
+                "legendary": 700,
+                "marvel": 500,
+                "gaminglegends": 500,
+                "lava": 500,
+                "icon": 500,
+                "starwars": 500,
+                "dc": 500,
+                "frozen": 500,
+                "shadow": 500,
+                "dark": 500,
+                "slurp": 500
+            },
+            "loadingscreen": {
+                "common": 200,
+                "uncommon": 200,
+                "rare": 200,
+                "epic": 200,
+                "legendary": 200,
+                "marvel": 200,
+                "gaminglegends": 200,
+                "lava": 200,
+                "icon": 200,
+                "starwars": 200,
+                "dc": 200,
+                "frozen": 200,
+                "shadow": 200,
+                "dark": 200,
+                "slurp": 200
+            },
+            "pickaxe": {
+                "common": 500,
+                "uncommon": 500,
+                "rare": 800,
+                "epic": 1200,
+                "legendary": 1500,
+                "marvel": 800,
+                "gaminglegends": 800,
+                "lava": 1200,
+                "icon": 800,
+                "starwars": 800,
+                "dc": 800,
+                "frozen": 1200,
+                "shadow": 800,
+                "dark": 1200,
+                "slurp": 1200
+            },
+            "glider": {
+                "common": 500,
+                "uncommon": 500,
+                "rare": 800,
+                "epic": 1200,
+                "legendary": 1500,
+                "marvel": 1200,
+                "gaminglegends": 1200,
+                "lava": 1500,
+                "icon": 800,
+                "starwars": 1200,
+                "dc": 1200,
+                "frozen": 1500,
+                "shadow": 1200,
+                "dark": 1200,
+                "slurp": 1500
+            },
+            "skydivecontrail": {
+                "common": 200,
+                "uncommon": 200,
+                "rare": 400,
+                "epic": 400,
+                "legendary": 400,
+                "marvel": 400,
+                "gaminglegends": 400,
+                "lava": 400,
+                "icon": 400,
+                "starwars": 400,
+                "dc": 400,
+                "frozen": 400,
+                "shadow": 400,
+                "dark": 400,
+                "slurp": 400
+            },
+            "bannertoken": {
+                "common": 200,
+                "uncommon": 200,
+                "rare": 400,
+                "epic": 400,
+                "legendary": 400,
+                "marvel": 400,
+                "gaminglegends": 400,
+                "lava": 400,
+                "icon": 400,
+                "starwars": 400,
+                "dc": 400,
+                "frozen": 400,
+                "shadow": 400,
+                "dark": 400,
+                "slurp": 400
+            },
+            "pet": {"unknown": 5000},
+            "shoe": {"unknown": 5000}
+        }
+    },
+    "items": {
+        "daily1": {
+            "items": [
+                "AthenaCharacter:CID_009_Athena_Commando_M"
+            ],
+            "price": 800
+        },
+        "daily2": {
+            "items": [
+                "AthenaCharacter:CID_011_Athena_Commando_M"
+            ],
+            "price": 800
+        },
+        "daily3": {
+            "items": [
+                "AthenaCharacter:CID_012_Athena_Commando_M"
+            ],
+            "price": 800
+        },
+        "daily4": {
+            "items": [
+                "AthenaCharacter:CID_013_Athena_Commando_F"
+            ],
+            "price": 800
+        },
+        "daily5": {
+            "items": [
+                "AthenaCharacter:CID_014_Athena_Commando_F"
+            ],
+            "price": 800
+        },
+        "daily6": {
+            "items": [
+                "AthenaCharacter:CID_015_Athena_Commando_F"
+            ],
+            "price": 800
+        },
+        "weekly1": {
+            "items": [
+                "AthenaCharacter:CID_016_Athena_Commando_F"
+            ],
+            "price": 800
+        },
+        "weekly2": {
+            "items": [
+                "AthenaCharacter:CID_010_Athena_Commando_M"
+            ],
+            "price": 800
+        },
+        "featured": {
+            "items": [
+                "AthenaCharacter:cid_036_athena_commando_m_wintercamo"
+            ],
+            "price": 800
+        },
+        "featured2": {
+            "items": [
+                "AthenaCharacter:cid_032_athena_commando_m_medieval",
+                "AthenaDance:eid_goodvibes"
+            ],
+            "price": 600
+        }
+    }
+}
