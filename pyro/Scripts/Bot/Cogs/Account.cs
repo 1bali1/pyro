@@ -1,6 +1,7 @@
 using Discord;
 using Discord.Interactions;
 using Microsoft.VisualBasic;
+using MongoDB.Driver;
 using pyro.Scripts.Utils;
 
 namespace pyro.Scripts.Bot.Cogs
@@ -27,6 +28,62 @@ namespace pyro.Scripts.Bot.Cogs
 
             string response = await _database.CreateUser(modal.username, modal.email, modal.password, Context.User.Id);
             var embed = Utils.Utils.CreateEmbed("Regisztráció", response, "Fiók", Context.User);
+
+            await Context.Interaction.FollowupAsync(embed: embed);
+        }
+
+        [SlashCommand("ban", "Tilts ki egy Pyro fiókot!")]
+        public async Task AccountBan(Discord.WebSocket.SocketUser user)
+        {
+            await Context.Interaction.DeferAsync();
+
+            var embed = Utils.Utils.CreateEmbed("Felhasználó kitiltása", "Sikeresen kitiltottad a felhasználót!", "Fiók", Context.User);
+
+            if (!Utils.Utils.owners.Contains(Context.User.Id))
+            {
+                embed = Utils.Utils.CreateEmbed("Felhasználó kitiltása", "Nincs jogosultságod a parancs használatához!", "Fiók", Context.User);
+                await Context.Interaction.FollowupAsync(embed: embed);
+                return;
+            }
+
+            var account = await _database.users.Find(p => p.discordUserId == user.Id).FirstOrDefaultAsync();
+
+            if(account == null)
+            {
+                embed = Utils.Utils.CreateEmbed("Felhasználó kitiltása", $"{user.GlobalName} nem rendelkezik regisztrált fiókkal!", "Fiók", Context.User);
+                await Context.Interaction.FollowupAsync(embed: embed);
+                return;
+            }
+
+            await _database.users.UpdateOneAsync(p => p.discordUserId == user.Id, Builders<User>.Update.Set(u => u.isBanned, true));
+
+            await Context.Interaction.FollowupAsync(embed: embed);
+        }
+
+        [SlashCommand("unban", "Oldd fel valakinek a kitiltását!")]
+        public async Task AccountUnban(Discord.WebSocket.SocketUser user)
+        {
+            await Context.Interaction.DeferAsync();
+
+            var embed = Utils.Utils.CreateEmbed("Kitiltás feloldása", "Sikeresen feloldottad a kitiltást!", "Fiók", Context.User);
+
+            if (!Utils.Utils.owners.Contains(Context.User.Id))
+            {
+                embed = Utils.Utils.CreateEmbed("Kitiltás feloldása", "Nincs jogosultságod a parancs használatához!", "Fiók", Context.User);
+                await Context.Interaction.FollowupAsync(embed: embed);
+                return;
+            }
+
+            var account = await _database.users.Find(p => p.discordUserId == user.Id).FirstOrDefaultAsync();
+
+            if(account == null)
+            {
+                embed = Utils.Utils.CreateEmbed("Kitiltás feloldása", $"{user.GlobalName} nem rendelkezik regisztrált fiókkal!", "Fiók", Context.User);
+                await Context.Interaction.FollowupAsync(embed: embed);
+                return;
+            }
+
+            await _database.users.UpdateOneAsync(p => p.discordUserId == user.Id, Builders<User>.Update.Set(u => u.isBanned, false));
 
             await Context.Interaction.FollowupAsync(embed: embed);
         }

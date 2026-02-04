@@ -15,7 +15,6 @@ namespace pyro.Scripts.Utils
         public const string resetColor = "\u001b[0m";
         public const string purpleColor = "\u001b[35m";
 
-
         // path
         const string profilesPath = "Data/Models/";
         const string configPath = "Config/config.json";
@@ -23,6 +22,7 @@ namespace pyro.Scripts.Utils
 
         public static string seasonName = "s15";
         public static int seasonNumber = int.Parse(seasonName.Replace("s", ""));
+        public static List<ulong> owners = new List<ulong>();
 
         public static string GenerateUuid() => Guid.NewGuid().ToString().Replace("-", "");
         public static string GetIsoDatetime(DateTime datetime) => datetime.ToString("yyyy-MM-ddTHH:mm:ssZ");
@@ -81,25 +81,19 @@ namespace pyro.Scripts.Utils
         }
 
         // TODO: talán tokenezni
-        public async Task LoadNews()
+        public async Task LoadConfig()
         {
             JObject config = await GetConfig();
             JObject jsonData = await GetJsonData<JObject>("contentpages");
 
+            // news
             var news = config.GetValue("news");
 
             jsonData["savetheworldnews"]!["news"]!["messages"] = news;
             jsonData["creativenews"]!["news"]!["messages"] = news;
             jsonData["battleroyalenews"]!["news"]!["messages"] = news;
 
-            await UpdateJsonData("contentpages", jsonData);
-        }
-
-        public async Task LoadEmergencyNotice()
-        {
-            JObject config = await GetConfig(); 
-            JObject jsonData = await GetJsonData<JObject>("contentpages");
-
+            // emergency notice
             var emergencynotice = config.GetValue("emergencynotice")!;
 
             jsonData["emergencynotice"]!["news"]!["messages"]![0]!["title"] = emergencynotice["title"];
@@ -108,8 +102,11 @@ namespace pyro.Scripts.Utils
             jsonData["emergencynoticev2"]!["emergencynotices"]!["emergencynotices"]![0]!["title"] = emergencynotice["title"];
             jsonData["emergencynoticev2"]!["emergencynotices"]!["emergencynotices"]![0]!["body"] = emergencynotice["description"];
 
+            owners = config.GetValue("owners")!.Values<ulong>().ToList();
+
             await UpdateJsonData("contentpages", jsonData);
         }
+
     }
 
     public class BackendError

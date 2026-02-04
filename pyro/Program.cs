@@ -19,8 +19,7 @@ builder.Services.AddSingleton(keychain);
 
 var utils = new Utils();
 
-await utils.LoadNews();
-await utils.LoadEmergencyNotice();
+await utils.LoadConfig();
 
 var app = builder.Build();
 
