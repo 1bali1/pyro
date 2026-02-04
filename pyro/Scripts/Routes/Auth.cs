@@ -153,9 +153,9 @@ namespace pyro.Scripts.Routes
             var headers = Request.Headers;
 
             StringValues authorization;
-            headers.TryGetValue("authorization", out authorization);
+            headers.TryGetValue("Authorization", out authorization);
 
-            string encodedToken = authorization.ToString().Split(":")[1];
+            string encodedToken = authorization.ToString().Split(" ")[1].Replace("eg1~", "");
             var handler = new JwtSecurityTokenHandler();
             var decodedToken = handler.ReadJwtToken(encodedToken);
 

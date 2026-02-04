@@ -87,5 +87,11 @@ namespace pyro.Scripts.Routes
         {
             return Ok(new {});
         }
+
+        [HttpGet("fortnite/api/receipts/v1/account/{accountId}/receipts")]
+        public async Task<IActionResult> AccountReceipts(string accountId)
+        {
+            return Ok(Array.Empty<int>());
+        }
     }
 }

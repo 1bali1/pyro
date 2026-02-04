@@ -2,6 +2,7 @@ using Discord;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace pyro.Scripts.Utils
@@ -19,6 +20,9 @@ namespace pyro.Scripts.Utils
         const string profilesPath = "Data/Models/";
         const string configPath = "Config/config.json";
         const string jsonDataPath = "Data/";
+
+        public static string seasonName = "s15";
+        public static int seasonNumber = int.Parse(seasonName.Replace("s", ""));
 
         public static string GenerateUuid() => Guid.NewGuid().ToString().Replace("-", "");
         public static string GetIsoDatetime(DateTime datetime) => datetime.ToString("yyyy-MM-ddTHH:mm:ssZ");
@@ -38,11 +42,12 @@ namespace pyro.Scripts.Utils
             return config;
         }
 
-        public async static Task<JObject> GetJsonData(string name)
+        public async static Task<T> GetJsonData<T>(string name)
         {
             string json = await File.ReadAllTextAsync(jsonDataPath + name + ".json");
+            
+            T content = JsonConvert.DeserializeObject<T>(json)!;
 
-            JObject content = JObject.Parse(json);
             return content;
         }
         public async static Task UpdateJsonData(string name, JObject data)
@@ -79,13 +84,13 @@ namespace pyro.Scripts.Utils
         public async Task LoadNews()
         {
             JObject config = await GetConfig();
-            JObject jsonData = await GetJsonData("contentpages");
+            JObject jsonData = await GetJsonData<JObject>("contentpages");
 
             var news = config.GetValue("news");
 
-            jsonData["savetheworldnews"]["news"]["messages"] = news;
-            jsonData["creativenews"]["news"]["messages"] = news;
-            jsonData["battleroyalenews"]["news"]["messages"] = news;
+            jsonData["savetheworldnews"]!["news"]!["messages"] = news;
+            jsonData["creativenews"]!["news"]!["messages"] = news;
+            jsonData["battleroyalenews"]!["news"]!["messages"] = news;
 
             await UpdateJsonData("contentpages", jsonData);
         }
@@ -93,15 +98,15 @@ namespace pyro.Scripts.Utils
         public async Task LoadEmergencyNotice()
         {
             JObject config = await GetConfig(); 
-            JObject jsonData = await GetJsonData("contentpages");
+            JObject jsonData = await GetJsonData<JObject>("contentpages");
 
             var emergencynotice = config.GetValue("emergencynotice")!;
 
-            jsonData["emergencynotice"]["news"]["messages"][0]["title"] = emergencynotice["title"];
-            jsonData["emergencynotice"]["news"]["messages"][0]["body"] = emergencynotice["description"];
+            jsonData["emergencynotice"]!["news"]!["messages"]![0]!["title"] = emergencynotice["title"];
+            jsonData["emergencynotice"]!["news"]!["messages"]![0]!["body"] = emergencynotice["description"];
 
-            jsonData["emergencynoticev2"]["emergencynotices"]["emergencynotices"][0]["title"] = emergencynotice["title"];
-            jsonData["emergencynoticev2"]["emergencynotices"]["emergencynotices"][0]["body"] = emergencynotice["description"];
+            jsonData["emergencynoticev2"]!["emergencynotices"]!["emergencynotices"]![0]!["title"] = emergencynotice["title"];
+            jsonData["emergencynoticev2"]!["emergencynotices"]!["emergencynotices"]![0]!["body"] = emergencynotice["description"];
 
             await UpdateJsonData("contentpages", jsonData);
         }

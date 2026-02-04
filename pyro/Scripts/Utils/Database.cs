@@ -76,8 +76,8 @@ namespace pyro.Scripts.Utils
             {
                 var profile = user.profiles[profileId];
                 profile["accountId"] = accountId;
-                profile["created"] = DateTime.Now;
-                profile["updated"] = DateTime.Now;
+                profile["created"] = Utils.GetIsoDatetime(DateTime.Now);
+                profile["updated"] = Utils.GetIsoDatetime(DateTime.Now);
 
             }
 
