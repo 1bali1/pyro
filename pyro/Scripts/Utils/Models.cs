@@ -11,7 +11,7 @@ namespace pyro.Scripts.Utils
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = default!;
         public string accountId { get; set; } = default!;
-        public long discordUserId { get; set; } = default!; // most nem tom fejlből
+        public ulong discordUserId { get; set; } = default!; // most nem tom fejlből
         public string username { get; set; } = default!;
         public string email { get; set; } = default!;
         public string password { get; set; } = default!;

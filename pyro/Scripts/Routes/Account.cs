@@ -23,7 +23,7 @@ namespace pyro.Scripts.Routes
             StringValues accountId;
             query.TryGetValue("accountId", out accountId);
 
-            var user = await _database.users.Find(p => p.accountId == accountId).FirstOrDefaultAsync();
+            var user = await _database.users.Find(p => p.accountId == (string)accountId!).FirstOrDefaultAsync();
 
             if (user == null)
             {
@@ -74,6 +74,18 @@ namespace pyro.Scripts.Routes
             };
 
             return Ok(returnData);
+        }
+
+        [HttpGet("account/api/public/account/{accountId}/externalAuths")]
+        public async Task<IActionResult> AccountExternalAuths(string accountId)
+        {
+            return Ok(Array.Empty<int>());
+        }
+
+        [HttpPost("api/v1/user/setting"), RequiresAuthorization]
+        public async Task<IActionResult> UserSetting()
+        {
+            return Ok(new {});
         }
     }
 }

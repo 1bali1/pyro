@@ -23,7 +23,7 @@ namespace pyro.Scripts.Utils
         public IMongoCollection<UserToken> tokens => _database.GetCollection<UserToken>("userTokens");
         public IMongoCollection<ClientToken> clientTokens => _database.GetCollection<ClientToken>("clientTokens");
 
-        public async Task<string> CreateUser(string username, string email, string password, long discordUserId)
+        public async Task<string> CreateUser(string username, string email, string password, ulong discordUserId)
         {
             email = email.ToLower();
 
@@ -98,11 +98,13 @@ namespace pyro.Scripts.Utils
                   accessToken="",
                   refreshToken=""  
                 };
+                await tokens.InsertOneAsync(userToken);
             }
 
             userToken.GetType().GetProperty(type)?.SetValue(userToken, token);
 
             await tokens.ReplaceOneAsync(p => p.accountId == accountId, replacement: userToken);
+            
         }
 
         public async Task AddClientToken(string ipAddress, string token)

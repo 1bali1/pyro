@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using dotenv.net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
@@ -14,10 +15,11 @@ namespace pyro.Scripts.Utils
         {
             var headers = filterContext.HttpContext.Request.Headers;
 
-            string authHeader = headers["Authorization"];
+            string authHeader = headers["Authorization"]!;
 
             if (string.IsNullOrWhiteSpace(authHeader) || !authHeader.StartsWith("bearer eg1~")) 
             { 
+                Console.WriteLine("token nem");
                 filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "A token nem található!", [], 1011, 401).Create(filterContext.HttpContext.Response);
                 return;
             }
@@ -61,7 +63,7 @@ namespace pyro.Scripts.Utils
         private readonly Database _database;
         public TokenManager(Database database)
         {
-            var env = dotenv.net.DotEnv.Read();
+            var env = DotEnv.Read();
             _secretKey = env["JWT_SECRET_KEY"];
             _database = database;
         }

@@ -1,3 +1,5 @@
+using Discord.Interactions;
+using Discord.WebSocket;
 using dotenv.net;
 using pyro.Scripts.Utils;
 
@@ -7,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddSingleton<Database>();
+builder.Services.AddSingleton<DiscordSocketClient>();
+builder.Services.AddSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()));
+builder.Services.AddHostedService<Bot>();
+
 
 var utils = new Utils();
 

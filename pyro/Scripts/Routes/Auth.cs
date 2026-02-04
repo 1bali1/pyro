@@ -30,8 +30,8 @@ namespace pyro.Scripts.Routes
 
             try
             {
-                string authorization = headers["authorization"]!;
-                byte[] decodedBytes = Convert.FromBase64String(authorization.Split(":")[0]);
+                string authorization = headers["Authorization"]!;
+                byte[] decodedBytes = Convert.FromBase64String(authorization.Split(" ")[1]);
                 string decodedString = Encoding.UTF8.GetString(decodedBytes);
                 clientId = decodedString.Split(":", 1)[0];
 
@@ -68,9 +68,15 @@ namespace pyro.Scripts.Routes
                         return error;
                     }
                     
-                    user = await _database.users.Find(p => p.email == email).FirstOrDefaultAsync();
+                    user = await _database.users.Find(p => p.email == (string)email!).FirstOrDefaultAsync();
 
                     if(user == null)
+                    {
+                        var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "A megadott e-mail vagy jelszó helytelen!", [], 1011, 401).Create(Response);
+                        return error;
+                    }
+
+                    if(!BCrypt.Net.BCrypt.Verify((string)password!, user.password))
                     {
                         var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "A megadott e-mail vagy jelszó helytelen!", [], 1011, 401).Create(Response);
                         return error;

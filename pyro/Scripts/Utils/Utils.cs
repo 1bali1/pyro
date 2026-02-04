@@ -1,3 +1,4 @@
+using Discord;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -16,7 +17,7 @@ namespace pyro.Scripts.Utils
 
         // path
         const string profilesPath = "Data/Models/";
-        const string configPath = "Config/Config.json";
+        const string configPath = "Config/config.json";
         const string jsonDataPath = "Data/";
 
         public static string GenerateUuid() => Guid.NewGuid().ToString().Replace("-", "");
@@ -47,6 +48,31 @@ namespace pyro.Scripts.Utils
         public async static Task UpdateJsonData(string name, JObject data)
         {
             await File.WriteAllTextAsync(jsonDataPath + name + ".json", data.ToString());
+        }
+
+        public static Embed CreateEmbed(string title, string description, string footer, Discord.WebSocket.SocketUser? user = null, Color? color = null)
+        {
+            Color embedColor = Color.DarkBlue;
+            if(color != null) embedColor = (Color)color;
+
+            var embed = new EmbedBuilder()
+                .WithTitle(title)
+                .WithDescription(description)
+                .WithColor(embedColor)
+                .WithFooter(f => f.WithText($"Pyro • {footer}").WithIconUrl("https://github.com/1bali1/pyro/raw/main/pyro/Assets/banner.png"))
+                .WithCurrentTimestamp();
+            
+            if(user != null)
+            {
+                embed.WithAuthor(author => author.WithName(user.GlobalName));
+                string avatarUrl = user.GetAvatarUrl();
+                if(avatarUrl == null) avatarUrl = user.GetDefaultAvatarUrl();
+                embed.Author.WithIconUrl(avatarUrl);
+                
+            }
+
+            return embed.Build();
+            
         }
 
         // TODO: talán tokenezni

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using pyro.Scripts.Utils;
 
@@ -20,11 +21,22 @@ namespace pyro.Scripts.Routes
             return NoContent();
         }
 
-        [HttpGet("createacc")]
-        public async Task<IActionResult> TestCreateAccount()
+        [HttpPost("datarouter/api/v1/public/data")]
+        public async Task<IActionResult> DataRouter()
         {
-            string result = await _database.CreateUser("bali", "test@test.test", "xdxdxd", 100000000000000);
-            return Ok(result);
+            return NoContent();
+        }
+
+        [HttpGet("eulatracking/api/public/agreements/fn/account/{accountId}")]
+        public async Task<IActionResult> EulaTracking(string accountId)
+        {
+            return NoContent();
+        }
+
+        [HttpGet("fortnite/api/game/v2/enabled_features")]
+        public async Task<IActionResult> EnabledFeatures()
+        {
+            return Ok(Array.Empty<int>());
         }
     }
 }
