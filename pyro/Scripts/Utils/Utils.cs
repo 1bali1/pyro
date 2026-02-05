@@ -17,7 +17,7 @@ namespace pyro.Scripts.Utils
 
         // path
         const string profilesPath = "Data/Models/";
-        const string configPath = "Config/config.json";
+        const string configPath = "Config/";
         const string jsonDataPath = "Data/";
 
         public static string seasonName = "s15";
@@ -34,9 +34,9 @@ namespace pyro.Scripts.Utils
             return BsonSerializer.Deserialize<BsonDocument>(json);
         }
 
-        public async static Task<JObject> GetConfig()
+        public async static Task<JObject> GetConfig(string name)
         {
-            string json = await File.ReadAllTextAsync(configPath);
+            string json = await File.ReadAllTextAsync(configPath + name + ".json");
 
             JObject config = JObject.Parse(json);
             return config;
@@ -83,7 +83,7 @@ namespace pyro.Scripts.Utils
         // TODO: talán tokenezni
         public async Task LoadConfig()
         {
-            JObject config = await GetConfig();
+            JObject config = await GetConfig("config");
             JObject jsonData = await GetJsonData<JObject>("contentpages");
 
             // news
