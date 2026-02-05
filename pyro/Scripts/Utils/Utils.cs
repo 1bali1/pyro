@@ -19,6 +19,7 @@ namespace pyro.Scripts.Utils
         const string profilesPath = "Data/Models/";
         const string configPath = "Config/";
         const string jsonDataPath = "Data/";
+        public const string cloudstoragePath = "Cloudstorage/";
 
         public static string seasonName = "s15";
         public static int seasonNumber = int.Parse(seasonName.Replace("s", ""));
