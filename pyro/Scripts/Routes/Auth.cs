@@ -39,7 +39,7 @@ namespace pyro.Scripts.Routes
             }
             catch (Exception)
             {
-                var error = await new BackendError("errors.com.epicgames.common.oauth.invalid_client", "Hiányzó 'authorization' header! Kérlek ellenőrizd a kérelmedet!", [], 1011, 400).Create(Response);
+                var error = await new BackendError("errors.com.epicgames.common.oauth.invalid_client", "Missing 'authorization' header! Please check your request!", [], 1011, 400).Create(Response);
                 return error;
             }
 
@@ -47,7 +47,7 @@ namespace pyro.Scripts.Routes
 
             if (!allowedGrantTypes.Contains(grantType))
             {
-                var error = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "Hiányzik a 'grant_type' paraméter!", [], 1011, 400).Create(Response);
+                var error = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "The 'grant_type' parameter is missing!", [], 1011, 400).Create(Response);
                 return error;
             }
 
@@ -64,7 +64,7 @@ namespace pyro.Scripts.Routes
 
                     if(StringValues.IsNullOrEmpty(email) || StringValues.IsNullOrEmpty(password))
                     {
-                        var error = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "Hiányzik a jelszó, vagy az e-mail-cím!", [], 1011, 400).Create(Response);
+                        var error = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "Email address or password is missing!", [], 1011, 400).Create(Response);
                         return error;
                     }
                     
@@ -72,13 +72,13 @@ namespace pyro.Scripts.Routes
 
                     if(user == null)
                     {
-                        var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "A megadott e-mail vagy jelszó helytelen!", [], 1011, 401).Create(Response);
+                        var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "The email or password you entered is incorrect!", [], 1011, 401).Create(Response);
                         return error;
                     }
 
                     if(!BCrypt.Net.BCrypt.Verify((string)password!, user.password))
                     {
-                        var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "A megadott e-mail vagy jelszó helytelen!", [], 1011, 401).Create(Response);
+                        var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "The email or password you entered is incorrect!", [], 1011, 401).Create(Response);
                         return error;
                     }
                     
@@ -108,13 +108,13 @@ namespace pyro.Scripts.Routes
 
             if(user == null)
             {
-                var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "Hiba történt a bejelentkezés közben!", [], 1011, 401).Create(Response);
+                var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "An error occurred while logging in!", [], 1011, 401).Create(Response);
                 return error;
             }
 
             if (user.isBanned)
             {
-                var error = await new BackendError("errors.com.epicgames.common.oauth.account_forbidden", "Ki vagy tiltva!", [], 1012, 401).Create(Response);
+                var error = await new BackendError("errors.com.epicgames.common.oauth.account_forbidden", "You are banned from the backend!", [], 1012, 401).Create(Response);
                 return error;
             }
 

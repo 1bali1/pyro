@@ -19,8 +19,7 @@ namespace pyro.Scripts.Utils
 
             if (string.IsNullOrWhiteSpace(authHeader) || !authHeader.StartsWith("bearer eg1~")) 
             { 
-                Console.WriteLine("token nem");
-                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "A token nem található!", [], 1011, 401).Create(filterContext.HttpContext.Response);
+                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "Token not found!", [], 1011, 401).Create(filterContext.HttpContext.Response);
                 return;
             }
             
@@ -36,7 +35,7 @@ namespace pyro.Scripts.Utils
             
             if(userToken == null || string.IsNullOrWhiteSpace(userToken.accessToken))
             {
-                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "A token nem található!", [], 1011, 401).Create(filterContext.HttpContext.Response);
+                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "Token not found!", [], 1011, 401).Create(filterContext.HttpContext.Response);
                 return;
             }
 
@@ -44,12 +43,12 @@ namespace pyro.Scripts.Utils
 
             if(user == null)
             {
-                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "Nem található a felhasználó!", [], 1011, 401).Create(filterContext.HttpContext.Response);
+                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "User not found!", [], 1011, 401).Create(filterContext.HttpContext.Response);
                 return; 
             }
             if (user.isBanned)
             {
-                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.account_forbidden", "Ki vagy tiltva!", [], 1012, 401).Create(filterContext.HttpContext.Response);
+                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.account_forbidden", "You are banned from the backend!", [], 1012, 401).Create(filterContext.HttpContext.Response);
                 return; 
             }
 

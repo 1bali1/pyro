@@ -12,7 +12,7 @@ namespace pyro.Scripts.Routes
             {
                 serviceInstanceId = "fortnite",
                 status = "UP",
-                message = "Pyro backend fut...",
+                message = "Pyro backend is running...",
                 maintenanceUri = "null",
                 overrideCatalogIds = Array.Empty<int>(),
                 allowedActions = new []{"PLAY", "DOWNLOAD"},

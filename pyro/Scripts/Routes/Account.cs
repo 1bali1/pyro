@@ -27,7 +27,7 @@ namespace pyro.Scripts.Routes
 
             if (user == null)
             {
-                var error = await new BackendError("errors.com.epicgames.common.oauth.invalid_client", "A fiók nem található!", [], 1011, 404).Create(Response);
+                var error = await new BackendError("errors.com.epicgames.common.oauth.invalid_client", "Account not found!", [], 1011, 404).Create(Response);
                 return error;
             }
 

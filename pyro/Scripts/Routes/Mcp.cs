@@ -36,7 +36,7 @@ namespace pyro.Scripts.Routes
 
             if (!allowedOperations.Contains(operation) || !allowedProfiles.Contains(profileId))
             {
-                var error = await new BackendError("errors.com.epicgames.modules.profiles.operation_not_found", "Nincs ilyen operáció!", [], 12813, 400).Create(Response);
+                var error = await new BackendError("errors.com.epicgames.modules.profiles.operation_not_found", "There's no such operation!", [], 12813, 400).Create(Response);
                 return error;
             }
 
@@ -46,7 +46,7 @@ namespace pyro.Scripts.Routes
 
             if(profile == null)
             {
-                var error = await new BackendError("errors.com.epicgames.modules.profiles.operation_not_found", "Nincs ilyen operáció!", [], 12813, 400).Create(Response);
+                var error = await new BackendError("errors.com.epicgames.modules.profiles.operation_not_found", "There's no such operation!", [], 12813, 400).Create(Response);
                 return error;
             }
 

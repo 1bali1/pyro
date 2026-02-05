@@ -27,15 +27,15 @@ namespace pyro.Scripts.Utils
         {
             email = email.ToLower();
 
-            if (await users.Find(p => p.discordUserId == discordUserId).FirstOrDefaultAsync() != null) return "Már van regisztrált fiókod!";
+            if (await users.Find(p => p.discordUserId == discordUserId).FirstOrDefaultAsync() != null) return "You already have a registered account!";
 
-            if (await users.Find(p => p.username == username).FirstOrDefaultAsync() != null) return "Ez a felhasználónév már foglalt!";
+            if (await users.Find(p => p.username == username).FirstOrDefaultAsync() != null) return "This username is already taken!";
 
-            if (await users.Find(p => p.email == email).FirstOrDefaultAsync() != null) return "Ezzel az e-mail-címmel már regisztrált valaki!";
+            if (await users.Find(p => p.email == email).FirstOrDefaultAsync() != null) return "Someone has already registered with this email address!";
             
             string emailFilter = @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$";
 
-            if (!Regex.IsMatch(email, emailFilter)) return "Helytelen a megadott e-mail formátum!";
+            if (!Regex.IsMatch(email, emailFilter)) return "The email format provided is incorrect.!";
         
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
             string accountId = Utils.GenerateUuid();
@@ -83,7 +83,7 @@ namespace pyro.Scripts.Utils
 
             await users.InsertOneAsync(user);
 
-            return "Sikeresen regisztráltál!";
+            return "You have successfully registered your account!";
         }
 
         public async Task AddToken(string type, string accountId, string token)
