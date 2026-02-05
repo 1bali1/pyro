@@ -17,6 +17,10 @@ builder.Services.AddHostedService<Bot>();
 var keychain = await Utils.GetJsonData<List<string>>("keychain");
 builder.Services.AddSingleton(keychain);
 
+var itemshop = await Utils.GetConfig("itemshop");
+builder.Services.AddSingleton<MItemshop>(itemshop.ToObject<MItemshop>()!);
+
+
 var utils = new Utils();
 
 await utils.LoadConfig();

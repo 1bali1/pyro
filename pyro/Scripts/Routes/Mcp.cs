@@ -27,6 +27,7 @@ namespace pyro.Scripts.Routes
         private static readonly string[] allowedProfiles = ["athena", "common_core", "common_public", "creative"];
 
         // TODO: update dolgok
+        // TODO: hiányzó profile: collections
 
         [HttpPost("/fortnite/api/game/v2/profile/{accountId}/client/{operation}"), RequiresAuthorization]
         public async Task<IActionResult> McpProfile(string accountId, string operation)

@@ -38,5 +38,11 @@ namespace pyro.Scripts.Routes
         {
             return Ok(Array.Empty<int>());
         }
+
+        [HttpGet("fortnite/api/v2/versioncheck/{platform}")]
+        public async Task<IActionResult> VersionCheck()
+        {
+            return Ok(new { type = "NO_UPDATE" });
+        }
     }
 }

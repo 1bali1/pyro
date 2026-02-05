@@ -1,5 +1,5 @@
 {
-    "autoItemshop": {
+    "autoItemshop": { 
         "enabled": true,
         "blacklistedItems": [
             "AthenaCharacter:CID_009_Athena_Commando_M"
