@@ -1,7 +1,7 @@
-using Discord;
 using Discord.Interactions;
-using Microsoft.VisualBasic;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using pyro.Scripts.Utils;
 
 namespace pyro.Scripts.Bot.Cogs
@@ -86,6 +86,44 @@ namespace pyro.Scripts.Bot.Cogs
             await _database.users.UpdateOneAsync(p => p.discordUserId == user.Id, Builders<User>.Update.Set(u => u.isBanned, false));
 
             await Context.Interaction.FollowupAsync(embed: embed.Build());
+        }
+
+        [SlashCommand("full-locker", "Give someone a full locker!")]
+        public async Task GiveFullLocker(Discord.WebSocket.SocketUser user)
+        {
+            await Context.Interaction.DeferAsync();
+
+            var embed = Utils.Utils.CreateEmbed("Give full locker", $"You have successfully given {user.Mention} a full locker!", "Account", Context.User);
+
+            if (!Utils.Utils.owners.Contains(Context.User.Id))
+            {
+                embed.Description = "You don't have enough permissions to use this command!";
+                await Context.Interaction.FollowupAsync(embed: embed.Build());
+                return;
+            }
+
+            var account = await _database.users.Find(p => p.discordUserId == user.Id).FirstOrDefaultAsync();
+
+            if(account == null)
+            {
+                embed.Description = $"{user.GlobalName} doesn't have a registered account!";
+                await Context.Interaction.FollowupAsync(embed: embed.Build());
+                return;
+            }
+            
+            var profile = account.profiles["athena"];
+            var loadout = profile["items"]["default-loadout"];
+
+            string json = await File.ReadAllTextAsync("Data/athenaitems.json"); 
+            BsonDocument content = BsonDocument.Parse(json);
+
+            profile["items"] = content;
+            profile["items"]["default-loadout"] = loadout;
+
+            await _database.users.UpdateOneAsync(p => p.discordUserId == user.Id, Builders<User>.Update.Set("profiles.athena.items", profile["items"]));
+
+            await Context.Interaction.FollowupAsync(embed: embed.Build());
+
         }
     }
     
