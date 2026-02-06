@@ -14,6 +14,7 @@ namespace pyro.Scripts.Utils
         public const string greenColor = "\u001b[32m";
         public const string resetColor = "\u001b[0m";
         public const string purpleColor = "\u001b[35m";
+        public const string blueColor = "\u001b[94m";
 
         // path
         const string profilesPath = "Data/Models/";

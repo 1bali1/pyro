@@ -2,6 +2,7 @@ using System.Reflection;
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
+using pyro.Scripts.Utils;
 
 public class Bot : BackgroundService
 {
@@ -38,10 +39,9 @@ public class Bot : BackgroundService
         await Task.Delay(-1);
     }
 
-    // TODO: custom logger
     private static Task Log(LogMessage msg)
     {
-        Console.WriteLine(msg.ToString());
+        Console.WriteLine($"{Utils.blueColor}[Bot]{Utils.resetColor} {msg.Message}");
         return Task.CompletedTask;
     }
 }
