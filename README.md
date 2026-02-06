@@ -52,9 +52,12 @@ dotnet run --project pyro
 <details>
 <summary>Current bot commands</summary>
 
-- `/account create`
-- `/account ban`
-- `/account unban` 
+- `/account create` - Creates an account for the user
+- `/account ban` - Bans a player from the backend (needs owner permissions)
+- `/account unban` - Unbans a player from the backend (needs owner permissions)
+- `/account full-locker` - Gives full locker to a player (needs owner permissions) 
+- `/profile discord` - Retrieves a user's information by their Discord ID.
+- `/profile name` - Retrieves a user's information by their player name
 </details>
 
 <hr>
@@ -62,9 +65,9 @@ dotnet run --project pyro
 ## Useful information
 - It is recommended to use (around) 2558px 1440px width and height for news to ensure the image is displayed properly
 - (Not tested on multiple versions) The itemshop will probably always have the old UI, and the following titles will be interpreted differently there: 
-- **Featured**(In game) -> Weekly items(In config)
-- **Daily**(In game) -> Daily items(In config)
-- **Special Offers**(In game) -> Featured items(In config)
+  - **Featured**(In game) -> Weekly items(In config)
+  - **Daily**(In game) -> Daily items(In config)
+  - **Special Offers**(In game) -> Featured items(In config)
 - If you need any help, open an issue
 - If you want to play with friends, I recommend you to use ngrok or cloudflared tunnel
 
