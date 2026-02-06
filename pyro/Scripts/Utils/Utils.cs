@@ -56,7 +56,7 @@ namespace pyro.Scripts.Utils
             await File.WriteAllTextAsync(jsonDataPath + name + ".json", data.ToString());
         }
 
-        public static Embed CreateEmbed(string title, string description, string footer, Discord.WebSocket.SocketUser? user = null, Color? color = null)
+        public static EmbedBuilder CreateEmbed(string title, string description, string footer, Discord.WebSocket.SocketUser? user = null, Color? color = null)
         {
             Color embedColor = Color.DarkBlue;
             if(color != null) embedColor = (Color)color;
@@ -67,7 +67,7 @@ namespace pyro.Scripts.Utils
                 .WithColor(embedColor)
                 .WithFooter(f => f.WithText($"Pyro • {footer}").WithIconUrl("https://github.com/1bali1/pyro/raw/main/pyro/Assets/banner.png"))
                 .WithCurrentTimestamp();
-            
+
             if(user != null)
             {
                 embed.WithAuthor(author => author.WithName(user.GlobalName));
@@ -77,7 +77,7 @@ namespace pyro.Scripts.Utils
                 
             }
 
-            return embed.Build();
+            return embed;
             
         }
 

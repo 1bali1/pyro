@@ -29,7 +29,7 @@ namespace pyro.Scripts.Bot.Cogs
             string response = await _database.CreateUser(modal.username, modal.email, modal.password, Context.User.Id);
             var embed = Utils.Utils.CreateEmbed("Registration", response, "Account", Context.User);
 
-            await Context.Interaction.FollowupAsync(embed: embed);
+            await Context.Interaction.FollowupAsync(embed: embed.Build());
         }
 
         [SlashCommand("ban", "Ban a Pyro account!")]
@@ -41,8 +41,8 @@ namespace pyro.Scripts.Bot.Cogs
 
             if (!Utils.Utils.owners.Contains(Context.User.Id))
             {
-                embed = Utils.Utils.CreateEmbed("User ban", "You don't have enough permissions to use this command!", "Account", Context.User);
-                await Context.Interaction.FollowupAsync(embed: embed);
+                embed.Description = "You don't have enough permissions to use this command!";
+                await Context.Interaction.FollowupAsync(embed: embed.Build());
                 return;
             }
 
@@ -50,14 +50,14 @@ namespace pyro.Scripts.Bot.Cogs
 
             if(account == null)
             {
-                embed = Utils.Utils.CreateEmbed("User ban", $"{user.GlobalName} doesn't have a registered account!", "Account", Context.User);
-                await Context.Interaction.FollowupAsync(embed: embed);
+                embed.Description = $"{user.GlobalName} doesn't have a registered account!";
+                await Context.Interaction.FollowupAsync(embed: embed.Build());
                 return;
             }
 
             await _database.users.UpdateOneAsync(p => p.discordUserId == user.Id, Builders<User>.Update.Set(u => u.isBanned, true));
 
-            await Context.Interaction.FollowupAsync(embed: embed);
+            await Context.Interaction.FollowupAsync(embed: embed.Build());
         }
 
         [SlashCommand("unban", "Unban a Pyro account!")]
@@ -69,8 +69,8 @@ namespace pyro.Scripts.Bot.Cogs
 
             if (!Utils.Utils.owners.Contains(Context.User.Id))
             {
-                embed = Utils.Utils.CreateEmbed("Unban user", "You don't have enough permissions to use this command!", "Account", Context.User);
-                await Context.Interaction.FollowupAsync(embed: embed);
+                embed.Description = "You don't have enough permissions to use this command!";
+                await Context.Interaction.FollowupAsync(embed: embed.Build());
                 return;
             }
 
@@ -78,14 +78,14 @@ namespace pyro.Scripts.Bot.Cogs
 
             if(account == null)
             {
-                embed = Utils.Utils.CreateEmbed("Unban user", $"{user.GlobalName} doesn't have a registered account!", "Account", Context.User);
-                await Context.Interaction.FollowupAsync(embed: embed);
+                embed.Description = $"{user.GlobalName} doesn't have a registered account!";
+                await Context.Interaction.FollowupAsync(embed: embed.Build());
                 return;
             }
 
             await _database.users.UpdateOneAsync(p => p.discordUserId == user.Id, Builders<User>.Update.Set(u => u.isBanned, false));
 
-            await Context.Interaction.FollowupAsync(embed: embed);
+            await Context.Interaction.FollowupAsync(embed: embed.Build());
         }
     }
     
