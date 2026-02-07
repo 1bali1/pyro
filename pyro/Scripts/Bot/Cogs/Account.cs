@@ -11,7 +11,8 @@ namespace pyro.Scripts.Bot.Cogs
     {
         private readonly Database _database;
 
-        public Account(Database database){
+        public Account(Database database)
+        {
             _database = database;
         }
 
@@ -48,7 +49,7 @@ namespace pyro.Scripts.Bot.Cogs
 
             var account = await _database.users.Find(p => p.discordUserId == user.Id).FirstOrDefaultAsync();
 
-            if(account == null)
+            if (account == null)
             {
                 embed.Description = $"{user.GlobalName} doesn't have a registered account!";
                 await Context.Interaction.FollowupAsync(embed: embed.Build());
@@ -76,7 +77,7 @@ namespace pyro.Scripts.Bot.Cogs
 
             var account = await _database.users.Find(p => p.discordUserId == user.Id).FirstOrDefaultAsync();
 
-            if(account == null)
+            if (account == null)
             {
                 embed.Description = $"{user.GlobalName} doesn't have a registered account!";
                 await Context.Interaction.FollowupAsync(embed: embed.Build());
@@ -104,17 +105,17 @@ namespace pyro.Scripts.Bot.Cogs
 
             var account = await _database.users.Find(p => p.discordUserId == user.Id).FirstOrDefaultAsync();
 
-            if(account == null)
+            if (account == null)
             {
                 embed.Description = $"{user.GlobalName} doesn't have a registered account!";
                 await Context.Interaction.FollowupAsync(embed: embed.Build());
                 return;
             }
-            
+
             var profile = account.profiles["athena"];
             var loadout = profile["items"]["default-loadout"];
 
-            string json = await File.ReadAllTextAsync("Data/athenaitems.json"); 
+            string json = await File.ReadAllTextAsync("Data/athenaitems.json");
             BsonDocument content = BsonDocument.Parse(json);
 
             profile["items"] = content;
@@ -125,8 +126,57 @@ namespace pyro.Scripts.Bot.Cogs
             await Context.Interaction.FollowupAsync(embed: embed.Build());
 
         }
+
+        [SlashCommand("delete", "Delete your Pyro account!")]
+        public async Task DeleteAccount()
+        {
+            var embed = Utils.Utils.CreateEmbed("Delete account", "You have successfully deleted your account!", "Account", Context.User);
+
+            var account = await _database.users.Find(p => p.discordUserId == Context.User.Id).FirstOrDefaultAsync();
+
+            if (account == null || account.isBanned)
+            {
+                embed.Description = "You don't have a registered Pyro account, or you are banned!";
+                await Context.Interaction.RespondAsync(embed: embed.Build());
+                return;
+            }
+            
+            await Context.Interaction.RespondWithModalAsync<DeleteAccountModal>("deleteAccountModal");
+        }
+
+        [ModalInteraction("deleteAccountModal", ignoreGroupNames: true)]
+        public async Task HandleAccountDelete(DeleteAccountModal modal)
+        {
+            await Context.Interaction.DeferAsync();
+
+            var embed = Utils.Utils.CreateEmbed("Delete account", "You have successfully deleted your account!", "Account", Context.User);
+
+            if (modal.confirmation != "CONFIRM")
+            {
+                embed.Description = "Account deletion cancelled!";
+                await Context.Interaction.FollowupAsync(embed: embed.Build());
+                return;
+            }
+
+            var account = await _database.users.Find(p => p.discordUserId == Context.User.Id).FirstOrDefaultAsync();
+
+            if (account != null && !account.isBanned) await _database.users.DeleteOneAsync(p => p.discordUserId == Context.User.Id);
+            else embed.Description = "There was an error while trying to delete your account!";
+
+            await Context.Interaction.FollowupAsync(embed: embed.Build());
+            return;
+        }
     }
-    
+
+    public class DeleteAccountModal : IModal
+    {
+        public string Title { get; } = "Confirmation";
+
+        [InputLabel("Are you sure?")]
+        [ModalTextInput("confirmationInput", Discord.TextInputStyle.Short, "Enter the text 'CONFIRM' to delete your account!")]
+        required public string confirmation { get; set; }
+
+    }
     public class CreateAccountModal : IModal
     {
         public string Title { get; } = "Create an account";

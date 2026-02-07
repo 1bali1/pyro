@@ -7,6 +7,8 @@ namespace pyro.Scripts.Utils
     public interface IDatabase
     {
         IMongoCollection<User> users { get; }
+        IMongoCollection<UserToken> tokens { get; }
+        IMongoCollection<ClientToken> clientTokens { get; }
     }
 
     public class Database : IDatabase
