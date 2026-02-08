@@ -55,7 +55,8 @@ dotnet run --project pyro
 - `/account create` - Creates an account for the user
 - `/account ban` - Bans a player from the backend (needs owner permissions)
 - `/account unban` - Unbans a player from the backend (needs owner permissions)
-- `/account full-locker` - Gives full locker to a player (needs owner permissions) 
+- `/account full-locker` - Gives full locker to a player (needs owner permissions)
+- `/account delete` - Deletes your account 
 - `/profile discord` - Retrieves a user's information by their Discord ID.
 - `/profile name` - Retrieves a user's information by their player name
 </details>

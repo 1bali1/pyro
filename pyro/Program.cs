@@ -20,6 +20,8 @@ builder.Services.AddSingleton(keychain);
 var itemshop = await Utils.GetConfig("itemshop");
 builder.Services.AddSingleton<MItemshop>(itemshop.ToObject<MItemshop>()!);
 
+var contentPages = await Utils.GetJsonData<object>("contentpages"); // ! ez még lehet probléma lesz
+builder.Services.AddSingleton(contentPages);
 
 var utils = new Utils();
 
