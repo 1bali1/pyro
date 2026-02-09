@@ -84,5 +84,12 @@ namespace pyro.Scripts.Routes
 
             return Ok(returnData);
         }
+
+        // ! lehet hogy get
+        [HttpGet("/fortnite/api/game/v2/profile/{accountId}/dedicated_server/{operation}"), RequiresAuthorization] // ? TODO: gs auth
+        public async Task<IActionResult> DedicatedProfile(string accountId, string operation)
+        {
+            return Ok();
+        }
     }
 }
