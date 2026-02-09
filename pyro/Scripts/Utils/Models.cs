@@ -20,7 +20,27 @@ namespace pyro.Scripts.Utils
         public int vbucks { get; set; }
         public DateTime createdOn { get; set; }
         public Dictionary<string, BsonDocument> profiles { get; set; } = default!;
-        public Dictionary<string, object> friendSystem { get; set; } = default!;
+        public FriendSystem friendSystem { get; set; } = default!;
+    }
+
+    public class FriendSystem
+    {
+        public bool acceptInvites { get; set; } = true;
+        public string mutualPrivacy { get; set; } = "ALL";
+        public List<Friend> friends { get; set; } = new();
+        public List<string> blockedUsers { get; set; } = new();
+    }
+
+    public class Friend
+    {
+        public string accountId { get; set; } = default!;
+        public string nickname { get; set; } = default!;
+        public string note { get; set; } = default!;
+        public string status { get; set; } = default!; // ACCEPTED - PENDING
+        public string direction { get; set; } = default!; // INBOUND - OUTBOUND
+        public bool favorite { get; set; }
+        public bool blocked { get; set; }
+        public string created { get; set; } = default!;
     }
 
     public class UserToken
@@ -44,26 +64,26 @@ namespace pyro.Scripts.Utils
 
     public class MItemshop
     {
-        public AutoItemshop autoItemshop { get; set; }
-        public Dictionary<string, ShopItem> items { get; set; }
+        public AutoItemshop autoItemshop { get; set; } = default!;
+        public Dictionary<string, ShopItem> items { get; set; } = default!;
     }
     public class AutoItemshop
     {
         public bool enabled { get; set; }
-        public List<string> blacklistedItems { get; set; }
-        public List<Bundle> bundles { get; set; }
-        public Dictionary<string, Dictionary<string, int>> prices { get; set; }
+        public List<string> blacklistedItems { get; set; } = default!;
+        public List<Bundle> bundles { get; set; } = default!;
+        public Dictionary<string, Dictionary<string, int>> prices { get; set; } = default!;
     }
 
     public class Bundle
     {
-        public List<string> items { get; set; }
+        public List<string> items { get; set; } = default!;
         public int price { get; set; }
     }
 
     public class ShopItem
     {
-        public List<string> items { get; set; }
+        public List<string> items { get; set; } = default!;
         public int price { get; set; }
     }
     public class CatalogEntry

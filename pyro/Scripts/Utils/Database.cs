@@ -65,13 +65,7 @@ namespace pyro.Scripts.Utils
                     { "common_public", commonPublic },
                     { "creative", creative }
                 },
-                friendSystem = new Dictionary<string, object>
-                {
-                    { "acceptInvites", true },
-                    { "mutualPrivacy", "ALL" },
-                    { "friends", new Dictionary<string, object>() },
-                    { "blockedUsers", new List<string>() }
-                }
+                friendSystem = new FriendSystem()
             };
 
             foreach (var profileId in user.profiles.Keys)
