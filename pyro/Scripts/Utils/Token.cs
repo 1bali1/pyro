@@ -28,6 +28,7 @@ namespace pyro.Scripts.Utils
             var handler = new JwtSecurityTokenHandler();
             var token = handler.ReadJwtToken(rawToken);
             
+            // ! System.InvalidOperationException: Sequence contains no matching element
             string sub = token.Claims.First(claim => claim.Type == "sub").Value;
 
             var database = filterContext.HttpContext.RequestServices.GetService<Database>();

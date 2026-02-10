@@ -27,7 +27,7 @@ namespace pyro.Scripts.Utils
     {
         public bool acceptInvites { get; set; } = true;
         public string mutualPrivacy { get; set; } = "ALL";
-        public List<Friend> friends { get; set; } = new();
+        public Dictionary<string, Friend> friends { get; set; } = new();
         public List<string> blockedUsers { get; set; } = new();
     }
 

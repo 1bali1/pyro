@@ -93,5 +93,23 @@ namespace pyro.Scripts.Routes
         {
             return Ok(Array.Empty<int>());
         }
+
+        [HttpGet("account/api/public/account/displayName/{displayName}"), RequiresAuthorization]
+        public async Task<IActionResult> AccountDisplayName(string displayName)
+        {
+            var user = await _database.users.Find(p => p.username == displayName).FirstOrDefaultAsync();
+            if(user == null)
+            {
+                var error = await new BackendError("errors.com.epicgames.account.account_not_found", "User not found!", [], 18007, 404).Create(Response);
+                return error;
+            }
+
+            return Ok(new
+            {
+                id = user.accountId,
+                displayName = user.username,
+                externalAuths = new {}
+            });
+        }
     }
 }
