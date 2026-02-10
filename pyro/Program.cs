@@ -1,6 +1,7 @@
 using Discord.Interactions;
 using Discord.WebSocket;
 using dotenv.net;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using pyro.Scripts.Utils;
 
@@ -21,6 +22,7 @@ var itemshop = await Utils.GetConfig("itemshop");
 builder.Services.AddSingleton<MItemshop>(itemshop.ToObject<MItemshop>()!);
 
 var contentPages = await Utils.GetJsonData<object>("contentpages"); // ! ez még lehet probléma lesz
+contentPages = JsonConvert.SerializeObject(contentPages);
 builder.Services.AddSingleton(contentPages);
 
 var utils = new Utils();

@@ -122,5 +122,17 @@ namespace pyro.Scripts.Routes
                 optOutOfPublicLeaderboards = false
             });
         }
+
+        [HttpGet("statsproxy/api/statsv2/account/{accountId}")]
+        public async Task<IActionResult> StatsProxy(string accountId)
+        {
+            return Ok(new
+            {
+                startTime = 0,
+                endTime = 0,
+                stats = new {},
+                accountId = accountId
+            });
+        }
     }
 }

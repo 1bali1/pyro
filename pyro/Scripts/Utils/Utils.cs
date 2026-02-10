@@ -94,6 +94,7 @@ namespace pyro.Scripts.Utils
             jsonData["savetheworldnews"]!["news"]!["messages"] = news;
             jsonData["creativenews"]!["news"]!["messages"] = news;
             jsonData["battleroyalenews"]!["news"]!["messages"] = news;
+            jsonData["battleroyalenewsv2"]!["news"]!["motds"] = news;
 
             // emergency notice
             var emergencynotice = config.GetValue("emergencynotice")!;

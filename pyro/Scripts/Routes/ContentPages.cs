@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using pyro.Scripts.Utils;
 
 namespace pyro.Scripts.Routes
@@ -8,9 +9,9 @@ namespace pyro.Scripts.Routes
     [ApiController]
     public class ContentPages : ControllerBase
     {
-        private readonly object _contentPages;
+        private readonly dynamic _contentPages;
 
-        public ContentPages(object contentPages)
+        public ContentPages(dynamic contentPages)
         {
             _contentPages = contentPages;
         }
@@ -18,7 +19,7 @@ namespace pyro.Scripts.Routes
         [HttpGet("content/api/pages/fortnite-game")]
         public async Task<IActionResult> GetContentPages()
         {
-            return Ok(_contentPages);
+            return Content(_contentPages, "application/json");
         }
     }
 }

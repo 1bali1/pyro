@@ -2064,7 +2064,7 @@
           "tabTitleOverride": "PYRO",
           "_type": "CommonUI Simple Message MOTD",
           "title": "PYRO",
-          "body": "Egyedi backend, rengeteg funkcióval! Fejlesztők: Bali & BKM",
+          "body": "Egyedi backend, rengeteg funkcióval!",
           "videoLoop": false,
           "videoStreamingEnabled": false,
           "sortingPriority": 0,
@@ -2072,7 +2072,7 @@
           "videoAutoplay": false,
           "videoFullscreen": false,
           "spotlight": false,
-          "websiteURL": "http://discord.gg/pyro",
+          "websiteURL": "https://discord.gg/xdidkxdxd",
           "websiteButtonText": "Discord szerverünk"
         }
       ]

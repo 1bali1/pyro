@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using pyro.Scripts.Utils;
 
 namespace pyro.Scripts.Routes
@@ -43,6 +44,12 @@ namespace pyro.Scripts.Routes
         public async Task<IActionResult> VersionCheck()
         {
             return Ok(new { type = "NO_UPDATE" });
+        }
+
+        [HttpGet("api/v1/events/Fortnite/download/{accountId}")]
+        public async Task<IActionResult> DownloadEvents(string accountId)
+        {
+            return Ok(new {});
         }
     }
 }
