@@ -1,4 +1,6 @@
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using MongoDB.Driver;
 using pyro.Scripts.Utils;
 
@@ -79,7 +81,7 @@ namespace pyro.Scripts.Routes
         public async Task<IActionResult> AddFriend(string sentFromId, string sentToId)
         {
             var sentFrom = HttpContext.Items["user"] as User;
-            if(sentFrom!.accountId != sentFromId)
+            if (sentFrom!.accountId != sentFromId)
             {
                 var error = await new BackendError("errors.com.epicgames.modules.profiles.operation_forbidden", "You can't do that!", [], 12813, 400).Create(Response);
                 return error;
@@ -87,7 +89,7 @@ namespace pyro.Scripts.Routes
 
             var sentTo = await _database.users.Find(p => p.accountId == sentToId).FirstOrDefaultAsync();
 
-            if(sentTo == null)
+            if (sentTo == null)
             {
                 var error = await new BackendError("errors.com.epicgames.modules.profiles.operation_forbidden", "User account not found!", [], 12813, 400).Create(Response);
                 return error;
@@ -105,14 +107,14 @@ namespace pyro.Scripts.Routes
                 return error;
             }
 
-            if(sentFromFriendObj != null && ((sentFromFriendObj.status == "PENDING" && sentFromFriendObj.direction == "INBOUND") || sentFromFriendObj.status == "ACCEPTED"))
+            if (sentFromFriendObj != null && ((sentFromFriendObj.status == "PENDING" && sentFromFriendObj.direction == "INBOUND") || sentFromFriendObj.status == "ACCEPTED"))
             {
                 var error = await new BackendError("errors.com.epicgames.friends.friend_request_already_sent", $"You've already sent a request to {sentTo.username}, or you are already friends!", [], 14014, 400).Create(Response);
                 return error;
             }
 
             string status = "PENDING";
-            if(sentFromFriendObj == null && sentToFriendObj == null)
+            if (sentFromFriendObj == null && sentToFriendObj == null)
             {
                 sentFromFriendObj = new Friend
                 {
@@ -150,6 +152,48 @@ namespace pyro.Scripts.Routes
             // TODO: xmpp implementálása: presence + friend notification
 
             return NoContent();
+        }
+
+        // ? friendnek kéne lenni ahhoz, hogyx használni lehessen
+        [AcceptVerbs("DELETE", "PUT")]
+        [Route("friends/api/v1/{sentFromId}/friends/{sentToId}/alias"), RequiresAuthorization]
+        public async Task<IActionResult> SetNickname(string sentFromId, string sentToId)
+        {
+            var sentFrom = HttpContext.Items["user"] as User;
+            if (sentFrom!.accountId != sentFromId)
+            {
+                var error = await new BackendError("errors.com.epicgames.modules.profiles.operation_forbidden", "You can't do that!", [], 12813, 400).Create(Response);
+                return error;
+            }
+
+            var sentTo = await _database.users.Find(p => p.accountId == sentToId).FirstOrDefaultAsync();
+
+            Friend sentToFriendObj;
+            sentFrom.friendSystem.friends.TryGetValue(sentToId, out sentToFriendObj!);
+
+            if (sentTo == null || sentToFriendObj == null)
+            {
+                var error = await new BackendError("errors.com.epicgames.modules.profiles.operation_forbidden", "User account not found!", [], 12813, 400).Create(Response);
+                return error;
+            }
+
+            string regexPattern = @"^[a-zA-Z0-9]+$";
+            string? nickname = null;
+
+            using (var reader = new StreamReader(Request.Body)) nickname = await reader.ReadToEndAsync();
+
+            if (Request.Method == "DELETE") nickname = "";
+
+            if (nickname == null || !Regex.IsMatch(nickname, regexPattern) || nickname.Length < 3 || nickname.Length > 16)
+            {
+                var error = await new BackendError("errors.com.epicgames.validation.validation_failed", "You can't do that!", [], 1040, 400).Create(Response);
+                return error;
+            }
+
+            await _database.users.UpdateOneAsync(p => p.accountId == sentFromId, Builders<User>.Update.Set($"friendSystem.friends.{sentToId}.nickname", nickname));
+
+            return NoContent();
+
         }
     }
 }

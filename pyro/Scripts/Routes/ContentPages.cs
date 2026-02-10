@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using pyro.Scripts.Utils;
@@ -14,7 +15,7 @@ namespace pyro.Scripts.Routes
             _contentPages = contentPages;
         }
 
-        [HttpGet("content/api/pages/fortnite-game"), RequiresAuthorization]
+        [HttpGet("content/api/pages/fortnite-game")]
         public async Task<IActionResult> GetContentPages()
         {
             return Ok(_contentPages);

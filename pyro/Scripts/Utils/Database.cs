@@ -47,6 +47,7 @@ namespace pyro.Scripts.Utils
             var commonCore = await Utils.GetProfileModel("common_core");
             var commonPublic = await Utils.GetProfileModel("common_public");
             var creative = await Utils.GetProfileModel("creative");
+            var collections = await Utils.GetProfileModel("collections");
 
             User user = new User
             {
@@ -63,7 +64,8 @@ namespace pyro.Scripts.Utils
                     { "athena", athena },
                     { "common_core", commonCore },
                     { "common_public", commonPublic },
-                    { "creative", creative }
+                    { "creative", creative },
+                    { "collections", collections }
                 },
                 friendSystem = new FriendSystem()
             };

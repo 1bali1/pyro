@@ -111,5 +111,16 @@ namespace pyro.Scripts.Routes
                 externalAuths = new {}
             });
         }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("fortnite/api/game/v2/privacy/account/{accountId}")]
+        public async Task<IActionResult> AccountPrivacy(string accountId)
+        {
+            return Ok(new
+            {
+                accountId = accountId,
+                optOutOfPublicLeaderboards = false
+            });
+        }
     }
 }

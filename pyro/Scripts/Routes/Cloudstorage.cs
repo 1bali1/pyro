@@ -50,8 +50,14 @@ namespace pyro.Scripts.Routes
             if(!System.IO.File.Exists(path)) return NotFound();
 
             return PhysicalFile(path, "application/octet-stream");
-
         }
+
+        [HttpGet("fortnite/api/cloudstorage/system/config"), RequiresAuthorization]
+        public async Task<IActionResult> CloudstorageConfig()
+        {
+            return Ok(Array.Empty<int>());
+        }
+
         private string GetHash(string data, string algo)
         {
             byte[] inputBytes = Encoding.UTF8.GetBytes(data);

@@ -24,7 +24,7 @@ namespace pyro.Scripts.Routes
             "MarkItemSeen"
         ];
 
-        private static readonly string[] allowedProfiles = ["athena", "common_core", "common_public", "creative"];
+        private static readonly string[] allowedProfiles = ["athena", "common_core", "common_public", "creative", "collections"];
 
         // TODO: update dolgok
         // TODO: hiányzó profile: collections

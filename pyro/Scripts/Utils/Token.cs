@@ -55,6 +55,8 @@ namespace pyro.Scripts.Utils
 
             filterContext.HttpContext.Items["user"] = user;
         }
+
+        // TODO: client auth
     }
 
     public class TokenManager
