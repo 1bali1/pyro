@@ -37,7 +37,7 @@ namespace pyro.Scripts.Utils
             
             string emailFilter = @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$";
 
-            if (!Regex.IsMatch(email, emailFilter)) return "The email format provided is incorrect.!";
+            if (!Regex.IsMatch(email, emailFilter)) return "The email format provided is incorrect!";
         
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
             string accountId = Utils.GenerateUuid();

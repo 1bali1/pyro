@@ -29,7 +29,13 @@ namespace pyro.Scripts.Utils
             var token = handler.ReadJwtToken(rawToken);
             
             // ! System.InvalidOperationException: Sequence contains no matching element
-            string sub = token.Claims.First(claim => claim.Type == "sub").Value;
+            string? sub = token.Claims.FirstOrDefault(claim => claim.Type == "sub")!.Value;
+            
+            if(sub == null)
+            {
+                filterContext.Result = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "Token not found!", [], 1011, 401).Create(filterContext.HttpContext.Response);
+                return;
+            }
 
             var database = filterContext.HttpContext.RequestServices.GetService<Database>();
             var userToken = await database!.tokens.Find(p => p.accountId == sub).FirstOrDefaultAsync();
