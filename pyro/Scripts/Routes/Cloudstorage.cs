@@ -33,7 +33,7 @@ namespace pyro.Scripts.Routes
                     contentType = "application/octet-stream",
                     uploaded = DateTime.Now,
                     storageType = "S3",
-                    storageIds = new { },
+                    storageIds = new {},
                     doNotCache = true
                 });
             }
