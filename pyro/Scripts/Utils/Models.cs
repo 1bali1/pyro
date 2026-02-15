@@ -19,6 +19,7 @@ namespace pyro.Scripts.Utils
         public bool isBanned { get; set; }
         public int vbucks { get; set; }
         public DateTime createdOn { get; set; }
+        public DateTime? lastDailyVBuckClaim { get; set; } = null;
         public Dictionary<string, BsonDocument> profiles { get; set; } = default!;
         public FriendSystem friendSystem { get; set; } = default!;
     }

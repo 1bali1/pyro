@@ -2056,24 +2056,20 @@
     "news": {
       "motds": [
         {
-          "entryType": "Website",
-          "image": "https://cdn.discordapp.com/attachments/1462431738809553099/1463630394397294736/image.png?ex=6977cd86&is=69767c06&hm=6056611166983a62a2d5cd49444d44f972f5ac2d199e91627e689f69faf77702&",
-          "tileImage": "https://cdn.discordapp.com/attachments/1462431738809553099/1465100207933886525/news.png?ex=6977e065&is=69768ee5&hm=502451199b5ab5437b52bcc759f60a8ff9a10bc1155dbac231d2b28f202c2971&",
-          "videoMute": false,
-          "hidden": false,
-          "tabTitleOverride": "PYRO",
-          "_type": "CommonUI Simple Message MOTD",
-          "title": "PYRO",
-          "body": "Egyedi backend, rengeteg funkcióval!",
-          "videoLoop": false,
-          "videoStreamingEnabled": false,
-          "sortingPriority": 0,
-          "id": "PyroNews",
-          "videoAutoplay": false,
-          "videoFullscreen": false,
+          "image": "https://cdn.discordapp.com/attachments/1462431738809553099/1463630394397294736/image.png?ex=697481c6&is=69733046&hm=052370cc66fddf092e57e623ece3b1f4cca2b74e6b3462f175892807e8287019&",
+          "adspace": "Pyro",
+          "title": "Pyro-backend fejlesztés alatt...",
+          "body": "Pyro-backend jelenleg fejlesztés alatt áll!",
           "spotlight": false,
-          "websiteURL": "https://discord.gg/xdidkxdxd",
-          "websiteButtonText": "Discord szerverünk"
+          "hidden": false
+        },
+        {
+          "image": "https://cdn.discordapp.com/attachments/1462431738809553099/1463630394397294736/image.png?ex=697481c6&is=69733046&hm=052370cc66fddf092e57e623ece3b1f4cca2b74e6b3462f175892807e8287019&",
+          "adspace": "Pyro",
+          "title": "Elég menő! nen",
+          "body": "Üdvözlünk Pyro-on!",
+          "spotlight": false,
+          "hidden": false
         }
       ]
     },

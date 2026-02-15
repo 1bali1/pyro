@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using MongoDB.Driver;
+using Newtonsoft.Json.Linq;
 using pyro.Scripts.Utils;
 
 namespace pyro.Scripts.Routes
@@ -26,7 +27,7 @@ namespace pyro.Scripts.Routes
         {
             var data = Request.Form;
             var headers = Request.Headers;
-            string ?clientId = null;
+            string? clientId = null;
 
             try
             {
@@ -51,7 +52,7 @@ namespace pyro.Scripts.Routes
                 return error;
             }
 
-            User ?user = null;
+            User? user = null;
             var tokenManager = new TokenManager(_database);
 
             switch (grantType)
@@ -62,26 +63,26 @@ namespace pyro.Scripts.Routes
                     data.TryGetValue("username", out email);
                     data.TryGetValue("password", out password);
 
-                    if(StringValues.IsNullOrEmpty(email) || StringValues.IsNullOrEmpty(password))
+                    if (StringValues.IsNullOrEmpty(email) || StringValues.IsNullOrEmpty(password))
                     {
                         var error = await new BackendError("errors.com.epicgames.common.oauth.invalid_request", "Email address or password is missing!", [], 1011, 400).Create(Response);
                         return error;
                     }
-                    
+
                     user = await _database.users.Find(p => p.email == (string)email!).FirstOrDefaultAsync();
 
-                    if(user == null)
+                    if (user == null)
                     {
                         var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "The email or password you entered is incorrect!", [], 1011, 401).Create(Response);
                         return error;
                     }
 
-                    if(!BCrypt.Net.BCrypt.Verify((string)password!, user.password))
+                    if (!BCrypt.Net.BCrypt.Verify((string)password!, user.password))
                     {
                         var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "The email or password you entered is incorrect!", [], 1011, 401).Create(Response);
                         return error;
                     }
-                    
+
                     break;
 
                 case "refresh":
@@ -96,7 +97,7 @@ namespace pyro.Scripts.Routes
                     var clientData = new
                     {
                         access_token = $"eg1~{token}",
-                        expires_in = clientExpireTime*3600,
+                        expires_in = clientExpireTime * 3600,
                         expires_at = expiresAt,
                         internal_client = true,
                         client_service = "fortnite"
@@ -106,7 +107,7 @@ namespace pyro.Scripts.Routes
                 default: break;
             }
 
-            if(user == null)
+            if (user == null)
             {
                 var error = await new BackendError("errors.com.epicgames.account.invalid_account_credentials", "An error occurred while logging in!", [], 1011, 401).Create(Response);
                 return error;
@@ -126,11 +127,11 @@ namespace pyro.Scripts.Routes
             var returnData = new
             {
                 access_token = $"eg1~{accessToken}",
-                expires_in = accessExpireTime*3600,
+                expires_in = accessExpireTime * 3600,
                 expires_at = Utils.Utils.GetIsoDatetime(DateTime.Now.AddHours(accessExpireTime)),
                 token_type = "bearer",
                 refresh_token = $"eg1~{refreshToken}",
-                refresh_expires = refreshExpireTime*3600,
+                refresh_expires = refreshExpireTime * 3600,
                 refresh_expires_at = Utils.Utils.GetIsoDatetime(DateTime.Now.AddHours(refreshExpireTime)),
                 account_id = user.accountId,
                 client_id = clientId,
@@ -140,8 +141,15 @@ namespace pyro.Scripts.Routes
                 app = "fortnite",
                 in_app_id = user.accountId,
                 device_id = deviceId
-            
+
             };
+
+            if (user.lastDailyVBuckClaim == null || user.lastDailyVBuckClaim.Value.Date != DateTime.Now.Date)
+            {
+                JObject config = await Utils.Utils.GetConfig("config");
+                var dailyVbucks = config["dailyVbucks"];
+                if(dailyVbucks != null) await _database.users.UpdateOneAsync(p => p.accountId == user.accountId, Builders<User>.Update.Set("lastDailyVBuckClaim", DateTime.Now).Inc("vbucks", dailyVbucks));
+            }
 
             return Ok(returnData);
         }

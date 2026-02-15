@@ -72,7 +72,7 @@ dotnet run --project pyro
 - If you need any help, open an issue
 - If you want to play with friends, I recommend you to use ngrok or cloudflared tunnel
 
-### Feautres
+### Features
 - [x] Auth system
 - [ ] Friends
 - [x] Itemshop
