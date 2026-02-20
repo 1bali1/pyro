@@ -32,6 +32,7 @@ await utils.LoadConfig();
 var app = builder.Build();
 
 app.MapControllers();
-app.UseMiddleware<Logger>();
+
+if (DotEnv.Read()["MUTE_ACCESS_LOG"] != "true") app.UseMiddleware<Logger>();
 
 await app.RunAsync();
